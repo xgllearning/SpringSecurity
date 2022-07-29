@@ -2,6 +2,7 @@ package com.study.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.study.domain.LoginUser;
 import com.study.domain.User;
 import com.study.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        //根据用户名查询用户信息
-
+        //根据用户名查询用户信息--通过mybatis-plus查询数据库
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(StringUtils.isNotBlank(username),User::getUserName,username);
+        User user = userMapper.selectOne(queryWrapper);
         //如果查询不到数据就通过抛出异常来给出提示
-
+        if (Objects.isNull(user)){
+            throw new RuntimeException("用户名或者密码不正确");
+        }
         //TODO 根据用户查询权限信息 添加到LoginUser中
         
-        //封装成UserDetails对象返回 
-        return null;
+        //封装成UserDetails对象返回,因为LoginUser实现了UserDetails，所以可以返回
+        return  new LoginUser(user);
     }
 }

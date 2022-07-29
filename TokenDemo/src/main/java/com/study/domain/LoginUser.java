@@ -1,11 +1,20 @@
 package com.study.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoginUser implements UserDetails {
+    //封装对象信息
+    private User user;
+    //getAuthorities获取权限信息的
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -13,31 +22,31 @@ public class LoginUser implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return user.getUserName();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
