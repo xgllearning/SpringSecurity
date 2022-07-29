@@ -79,9 +79,16 @@ public class JwtUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjYWM2ZDVhZi1mNjVlLTQ0MDAtYjcxMi0zYWEwOGIyOTIwYjQiLCJzdWIiOiJzZyIsImlzcyI6InNnIiwiaWF0IjoxNjM4MTA2NzEyLCJleHAiOjE2MzgxMTAzMTJ9.JVsSbkP94wuczb4QryQbAke3ysBDIL5ou8fWsbt_ebg";
-        Claims claims = parseJWT(token);
-        System.out.println(claims);
+        String jwt = createJWT("2123");//返回加密后的jwt字符串，可以传入json字符串
+        System.out.println(jwt);
+        //String token = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjYWM2ZDVhZi1mNjVlLTQ0MDAtYjcxMi0zYWEwOGIyOTIwYjQiLCJzdWIiOiJzZyIsImlzcyI6InNnIiwiaWF0IjoxNjM4MTA2NzEyLCJleHAiOjE2MzgxMTAzMTJ9.JVsSbkP94wuczb4QryQbAke3ysBDIL5ou8fWsbt_ebg";
+        //Claims claims = parseJWT(token);
+        Claims claims1 = parseJWT(jwt);
+        System.out.println(claims1);//{jti=7ca92fbc00954ca1a89f3d744ac80001, sub=2123, iss=sg, iat=1659089528, exp=1659093128}
+        String subject = claims1.getSubject();
+        System.out.println(subject);//2123
+        //System.out.println(claims);
+
     }
 
     /**
