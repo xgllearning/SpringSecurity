@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.study.domain.User;
 
+import com.study.mapper.MenuMapper;
 import com.study.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 
@@ -21,12 +22,14 @@ public class MapperTest {
     private UserMapper userMapper;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private MenuMapper menuMapper;
     @Test
     public void TestBCryptPasswordEncoder(){
         //BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        String encode = passwordEncoder.encode("123456");//加密：CharSequence rawPassword
-        String encode2 = passwordEncoder.encode("123456");//加密：CharSequence rawPassword
+        String encode = passwordEncoder.encode("12345");//加密：CharSequence rawPassword
+        String encode2 = passwordEncoder.encode("12345");//加密：CharSequence rawPassword
         System.out.println(encode);//"$2a$10$S.1VjhJVe3m8noKrDp8TmuqvWZ5eU0/wqHWwecMujVLK1Ki6aRwm6"
         System.out.println(encode2);//"$2a$10$GeY5VdSuWYFnBUDi6WZ89ulIbN5B5G3BAaVKbF2fDQ8tEuZNeAMMG"
         //每次都会不一样，原因是加盐导致
@@ -40,5 +43,11 @@ public class MapperTest {
     public void testUserMapper(){
         List<User> users = userMapper.selectList(null);
         System.out.println(users);
+    }
+
+    @Test
+    public void testSelectPermsByUserId(){
+        List<String> list = menuMapper.selectPermsByUserId(2L);
+        System.out.println(list);
     }
 }
