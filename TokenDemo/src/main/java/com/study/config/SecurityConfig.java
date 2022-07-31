@@ -40,9 +40,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/hello").permitAll()
-                // 对于登录接口 允许匿名访问
+                //permitAll() 登录能访问,不登录也能访问,一般用于静态资源js等
+                .antMatchers("/hello1").permitAll()
+                // 对于登录接口 允许匿名访问，登录后无法访问
                 .antMatchers("/user/login").anonymous()
+                //访问该接口必须具有的权限，与注解作用一致
+                .antMatchers("/hello").hasAuthority("system:dept:list222")
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated();
 
@@ -54,6 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(authenticationEntryPoint)
                 //配置授权失败处理器
                 .accessDeniedHandler(accessDeniedHandler);
+        //允许跨域
+        http.cors();
     }
     //重写方法，加入容器
     @Bean
